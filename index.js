@@ -5,12 +5,14 @@ const restify = require('restify')
 const app = restify.createServer({ version: 1.0, name: "video" });
 const mongoose = require('mongoose');
 
+
+
+
+mongoose.connect("mongodb+srv://sampler:12345@cluster0-lqjhc.mongodb.net/videos?retryWrites=true&w=majority",
+    { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true });
+
 const router = require('./router/routers')
-
-
-
-mongoose.connect("mongodb+srv://sampler:12345@cluster0-lqjhc.mongodb.net/videos?retryWrites=true&w=majority", { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true });
-
+router(app)
 
 
 //SERVER HEADERS
@@ -21,12 +23,12 @@ app.use((req, res, next) => { //Cria um middleware onde todas as requests passam
         next(); //Não precisa redirecionar, passa para os próximos middlewares que servirão com o conteúdo desejado 
 });
 
-app.use(function (req, res, next) {
+/*app.use(function (req, res, next) {
     res.redirect = function (addr) {
         res.header('Location', addr);
         res.send(302);
     }
-});
+});*/
 
 app.use((req, res, next) => {
 
@@ -77,7 +79,6 @@ app.use(restify.plugins.acceptParser(app.acceptable));
 app.use(restify.plugins.queryParser({ mapParams: true }));
 app.use(restify.plugins.fullResponse());
 
-router(app)
 
 app.listen(3000, () => {
     console.log("Servidor no Ar")

@@ -1,12 +1,11 @@
-const video = require('../schemas/schemaVideo')
+let video = require('../schemas/schemaVideo')
 
 module.exports = {
 
     allVideos: async (req, res) => {
 
-        //let videos = await video.find()
-        res.json("estou aqui")
-
+        let videos = await video.find()
+        return res.json(videos)
 
     },
 
