@@ -2,14 +2,10 @@ const video = require('../schemas/schemaVideo')
 
 module.exports = {
 
-    allmsg: async (req, res) => {
-        res.json("bem vindo")
-    },
-
     allVideos: async (req, res) => {
         try {
-            const videos = await video.find()
-            return res.json(videos)
+            let videos = await video.find()
+            res.json(videos)
         } catch (error) {
             console.log(error)
         }

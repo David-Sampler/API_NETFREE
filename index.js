@@ -59,12 +59,14 @@ function unknownMethodHandler(req, res, next) {
 
 
 app.on("MethodNotAllowed", unknownMethodHandler);
+
 app.use(restify.plugins.bodyParser({ mapParams: true }));
 app.use(restify.plugins.acceptParser(app.acceptable));
 app.use(restify.plugins.queryParser({ mapParams: true }));
 app.use(restify.plugins.fullResponse());
 
 var port = process.env.PORT || 3000;
+
 router(app)
 
 app.listen(port, () => {
