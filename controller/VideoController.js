@@ -3,12 +3,10 @@ const video = require('../schemas/schemaVideo')
 module.exports = {
 
     allVideos: async (req, res) => {
-        try {
-            let videos = await video.find()
-            res.json(videos)
-        } catch (error) {
-            console.log(error)
-        }
+
+        //let videos = await video.find()
+        res.json("estou aqui")
+
 
     },
 
