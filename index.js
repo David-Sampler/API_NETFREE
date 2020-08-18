@@ -13,6 +13,7 @@ mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTop
 
 
 
+//SERVER HEADERS
 app.use((req, res, next) => { //Cria um middleware onde todas as requests passam por ele 
     if (req.headers["x-forwarded-proto"] == "http") //Checa se o protocolo informado nos headers é HTTP 
         res.redirect(`https://${req.headers.host}${req.url}`); //Redireciona pra HTTPS 
@@ -20,11 +21,20 @@ app.use((req, res, next) => { //Cria um middleware onde todas as requests passam
         next(); //Não precisa redirecionar, passa para os próximos middlewares que servirão com o conteúdo desejado 
 });
 
+app.use(function (req, res, next) {
+    res.redirect = function (addr) {
+        res.header('Location', addr);
+        res.send(302);
+    }
+});
 
 app.use((req, res, next) => {
 
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+    res.header(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+    );
     res.header(
         "Access-Control-Allow-Headers",
         "X-Requested-With, Content-Type, Origin, token, Authorization, Accept, Client-Security-Token, Accept-Encoding, X-Auth-Token"
@@ -57,18 +67,18 @@ function unknownMethodHandler(req, res, next) {
     }
 }
 
-
 app.on("MethodNotAllowed", unknownMethodHandler);
+
+
+//app.use(cors(options))
 
 app.use(restify.plugins.bodyParser({ mapParams: true }));
 app.use(restify.plugins.acceptParser(app.acceptable));
 app.use(restify.plugins.queryParser({ mapParams: true }));
 app.use(restify.plugins.fullResponse());
 
-var port = process.env.PORT || 3000;
-
 router(app)
 
-app.listen(port, () => {
+app.listen(3000, () => {
     console.log("Servidor no Ar")
 })
