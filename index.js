@@ -11,8 +11,7 @@ app.get('/', function (req, res, next) {
 })
 
 
-mongoose.connect("mongodb+srv://sampler:12345@cluster0-lqjhc.mongodb.net/videos?retryWrites=true&w=majority",
-    { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true });
+
 
 const router = require('./router/routers')
 
