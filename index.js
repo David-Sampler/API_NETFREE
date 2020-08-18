@@ -5,14 +5,17 @@ const restify = require('restify')
 const app = restify.createServer({ version: 1.0, name: "video" });
 const mongoose = require('mongoose');
 
-
+app.get('/', function (req, res, next) {
+    res.send(200, 'hello world');
+    return next();
+})
 
 
 mongoose.connect("mongodb+srv://sampler:12345@cluster0-lqjhc.mongodb.net/videos?retryWrites=true&w=majority",
     { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true });
 
 const router = require('./router/routers')
-router(app)
+
 
 
 //SERVER HEADERS
@@ -31,7 +34,7 @@ app.use((req, res, next) => { //Cria um middleware onde todas as requests passam
 });*/
 
 app.use((req, res, next) => {
-
+    res.header('content-type', 'json');
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
         "Access-Control-Allow-Methods",
@@ -80,6 +83,7 @@ app.use(restify.plugins.queryParser({ mapParams: true }));
 app.use(restify.plugins.fullResponse());
 
 
-app.listen(3000, () => {
-    console.log("Servidor no Ar")
-})
+//router(app)
+
+app.listen(process.env.PORT || 3000, () => { console.log("Conectado com sucesso") }
+)
