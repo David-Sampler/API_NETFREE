@@ -9,7 +9,7 @@ const router = require('./router/routers')
 
 
 
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb+srv://sampler:12345@cluster0-lqjhc.mongodb.net/videos?retryWrites=true&w=majority", { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true });
 
 
 
