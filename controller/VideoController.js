@@ -3,7 +3,7 @@ const video = require('../schemas/schemaVideo')
 module.exports = {
 
     allmsg: async (req, res) => {
-        res.send("bem vindo")
+        res.json("bem vindo")
     },
 
     allVideos: async (req, res) => {
