@@ -1,30 +1,24 @@
 require('dotenv').config()
 
-
 const restify = require('restify')
-const app = restify.createServer({ version: 1.0, name: "video" });
+const app = restify.createServer();
 const mongoose = require('mongoose');
+const cors = require('cors')
 
 mongoose.connect("mongodb+srv://sampler:12345@cluster0-lqjhc.mongodb.net/videos?retryWrites=true&w=majority",
     { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true });
-
-
-
-
-
-
 
 const router = require('./router/routers')
 router(app)
 
 
 //SERVER HEADERS
-/*app.use((req, res, next) => { //Cria um middleware onde todas as requests passam por ele 
+app.use((req, res, next) => { //Cria um middleware onde todas as requests passam por ele 
     if (req.headers["x-forwarded-proto"] == "http") //Checa se o protocolo informado nos headers é HTTP 
         res.redirect(`https://${req.headers.host}${req.url}`); //Redireciona pra HTTPS 
     else //Se a requisição já é HTTPS 
         next(); //Não precisa redirecionar, passa para os próximos middlewares que servirão com o conteúdo desejado 
-});*/
+});
 
 
 app.use((req, res, next) => {
@@ -69,7 +63,7 @@ function unknownMethodHandler(req, res, next) {
 app.on("MethodNotAllowed", unknownMethodHandler);
 
 
-//app.use(cors(options))
+app.use(cors())
 
 app.use(restify.plugins.bodyParser({ mapParams: true }));
 app.use(restify.plugins.acceptParser(app.acceptable));

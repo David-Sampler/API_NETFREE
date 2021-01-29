@@ -4,8 +4,13 @@ module.exports = {
 
     allVideos: async (req, res) => {
 
-        let videos = await video.find()
-        return res.json(videos)
+        try {
+            let videos = await video.find()
+            return res.json({videos})
+        } catch (error) {
+            console.log("erro")
+        }
+     
 
     },
 
